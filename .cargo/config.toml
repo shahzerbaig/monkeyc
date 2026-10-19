@@ -1,0 +1,10 @@
+[build]
+rustflags = ["-C", "debuginfo=2"]
+
+[alias]
+ck = "check"
+cl = "clippy --all-targets --all-features"
+t = "test"
+b = "build"
+br = "build --release"
+r = "run"
