@@ -1,11 +1,17 @@
 use std::env;
-
+use std::io;
 //use std::process;
 
-pub fn read_file_name() -> String {
+pub fn read_file_name() -> Result<String, io::Error> {
     let args: Vec<String> = env::args().collect();
 
-    args[1].clone()
+    match args.get(1) {
+        Some(filename) => Ok(filename.clone()),
+        None => Err(io::Error::new(
+            io::ErrorKind::InvalidInput,
+            "Please provide a Monkey source file",
+        )),
+    }
 }
 
 pub fn read_file_content(filename: String) -> Result<String, std::io::Error> {
