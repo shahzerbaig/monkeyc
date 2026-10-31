@@ -14,6 +14,22 @@ pub enum TokenKind {
     Else,
     Return,
     Ident,
+
+    // Operators
+    Assign,
+    Plus,
+    Minus,
+    Bang,
+    Slash,
+
+    // Delimiters
+    Comma,
+    Semicolon,
+    Colon,
+
+    // Special tokens
+    Illegal,
+    EOF,
 }
 
 pub struct Token {
@@ -30,8 +46,9 @@ impl Token {
     }
 }
 
+// Display funtion to show the type.
 impl fmt::Display for TokenKind {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+    fn fmt(&self, formater: &mut fmt::Formatter<'_>) -> fmt::Result {
         let s = match self {
             TokenKind::Class => "Class",
             TokenKind::Const => "Const",
@@ -45,8 +62,24 @@ impl fmt::Display for TokenKind {
             TokenKind::Else => "Else",
             TokenKind::Return => "Return",
             TokenKind::Ident => "Ident",
+
+            //Operators
+            TokenKind::Assign => "Assign",
+            TokenKind::Plus => "Plus",
+            TokenKind::Minus => "Minus",
+            TokenKind::Bang => "Bang",
+            TokenKind::Slash => "Slash",
+
+            //Delimeters
+            TokenKind::Comma => "Comma",
+            TokenKind::Semicolon => "Semicolon",
+            TokenKind::Colon => "Colon",
+
+            //Special Tokens
+            TokenKind::Illegal => "Illegal",
+            TokenKind::EOF => "EOF",
         };
-        f.write_str(s)
+        formater.write_str(s)
     }
 }
 // The lookup_ident() function distinguishes reserved keywords from normal identifiers. For example, let becomes TokenKind::Let, while age becomes TokenKind::Ident
@@ -66,4 +99,19 @@ pub fn lookup_ident(ident: &str) -> TokenKind {
         "return" => TokenKind::Return,
         _ => TokenKind::Ident,
     }
+}
+
+pub fn lookup_operator(ch: char) -> Option<TokenKind> {
+    let kind = match ch {
+        '=' => TokenKind::Assign,
+        '+' => TokenKind::Plus,
+        '-' => TokenKind::Minus,
+        '!' => TokenKind::Bang,
+        '/' => TokenKind::Slash,
+        ',' => TokenKind::Comma,
+        ';' => TokenKind::Semicolon,
+        ':' => TokenKind::Colon,
+        _ => return None,
+    };
+    Some(kind)
 }
